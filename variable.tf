@@ -85,7 +85,7 @@ variable "replica_regions" {
 variable "ttl_enabled" {
   description = "Indicates whether ttl is enabled"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "ttl_attribute_name" {
