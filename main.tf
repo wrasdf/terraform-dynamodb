@@ -1,4 +1,6 @@
 resource "aws_dynamodb_table" "this" {
+
+  count = var.create_table ? 1 : 0
   
   name             = var.name
   table_class      = var.table_class
