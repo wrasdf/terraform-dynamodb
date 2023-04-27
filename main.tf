@@ -83,7 +83,7 @@ resource "aws_dynamodb_table" "this" {
     local.default_tags,
     var.tags,
     {
-      "Name" = format("%s", var.name)
+      name = format("%s", var.name)
     },
   )
 
