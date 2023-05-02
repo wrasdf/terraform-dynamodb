@@ -1,1 +1,0 @@
-## Terraform dynamodb module
