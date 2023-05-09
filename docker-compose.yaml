@@ -1,0 +1,56 @@
+---
+version: '3.9'
+
+x-base: &base
+  volumes:
+    - "~/.aws:/root/.aws"
+    - "~/.kube:/root/.kube"
+    - ".:/app"
+  user: root
+  working_dir: /app
+  platform: linux/amd64
+  environment:
+    - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-ap-southeast-2}
+    - AWS_PROFILE
+    - KUBECONFIG
+    
+services:
+
+  k8s-tools:
+    <<: *base
+    platform: linux/arm64
+    image: 361053881171.dkr.ecr.ap-southeast-2.amazonaws.com/platform/k8s-toolkit:4.3.18
+    entrypoint: 
+      - bash
+
+  app:
+    <<: *base
+    build:
+      context: .
+      target: base
+    entrypoint: 
+      - bash
+
+  serve:
+    <<: *base
+    build:
+      context: .
+      target: base
+    ports:
+      - "3000:3000"
+    entrypoint:
+      - python
+      - ./app/server.py
+
+  terraform:
+    <<: *base
+    image: ikerry/tf-toolkit:v0.2.0
+    entrypoint: 
+      - bash
+
+  release:
+    <<: *base
+    build:
+      context: .
+      target: base
+    image: ikerry/dynamodb:${APP_VERSION:-latest}
