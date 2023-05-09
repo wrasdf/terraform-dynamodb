@@ -6,7 +6,7 @@ locals {
     managed_by            = "crossplane terraform-provider"
     service_name          = "terraform dynamodb"
     deployment_method     = "Terraform"
-    crossplane.io/paused  = "true"
+    paused                = "true"
   }
   
 }
